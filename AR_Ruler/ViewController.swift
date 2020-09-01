@@ -85,7 +85,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             pow(end.position.z - start.position.z, 2)
         )
         
-        print(abs(distance))
+        updateText(text: "\(String(format: "%.1f", abs(distance) * 100)) cm", atPosition: end.position )
+    }
+    
+    func updateText(text: String, atPosition position: SCNVector3) {
+        let textGeometry = SCNText(string: text, extrusionDepth: 1.0)
+        textGeometry.firstMaterial?.diffuse.contents = UIColor.white
+        textGeometry.flatness = 0.05
+        
+        let textNode = SCNNode()
+        textNode.geometry = textGeometry
+        textNode.position = SCNVector3(position.x, position.y, position.z)
+        textNode.scale = SCNVector3(0.005, 0.005, 0.005)
+        
+        sceneView.scene.rootNode.addChildNode(textNode)
     }
 
 }
